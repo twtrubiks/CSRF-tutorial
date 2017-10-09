@@ -2,7 +2,7 @@
 
 Use Django To Introduce CSRF and Cookies , Session 📝
 
-* [Youtube Tutorial](sss)
+* [Youtube Tutorial](https://youtu.be/J075bvFA5-Q)
 
 ## 前言
 
@@ -192,7 +192,7 @@ django_attack_site 為模擬攻擊（ 被加料 ）的網站，run 起來為 [ht
 
 所以，Server 的防範（雖然很簡單）還是要做好 :grinning:
 
-如果看到這邊你還是不太了解，建議可以參考影片 [Youtube Tutorial](sss)
+如果看到這邊你還是不太了解，建議可以參考影片 [Youtube Tutorial](https://youtu.be/J075bvFA5-Q)
 
 ## 結論
 
