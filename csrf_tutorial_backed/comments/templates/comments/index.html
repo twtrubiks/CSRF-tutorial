@@ -1,0 +1,47 @@
+{% extends "Comments/base.html" %}
+{% load bootstrap3 %}
+{% load staticfiles %}
+
+{% block content %}
+    {% for comment in comments %}
+        <div class="media">
+            <div class="media-left media-top">
+                <img src="{% static "img/fb_icon.png" %}" class="media-object" style="width:80px">
+            </div>
+            <div class="media-body">
+                <h4 class="media-heading">{{ comment.name }} - id:{{ comment.id }}
+                    <small><i>Posted on {{ comment.created }}</i>
+                        <a href="#"><i class="fa fa-trash-o" aria-hidden="true"
+                                       onClick="removeComment({{ comment.id }})"></i>
+                        </a>
+                    </small>
+                </h4>
+                <p>{{ comment.text }}</p>
+            </div>
+        </div>
+        <hr>
+    {% endfor %}
+
+
+    <script>
+        function removeComment(id) {
+            jQuery.ajax({
+                url: "http://127.0.0.1:8000/delete/",
+                type: "POST",
+                data: {
+                    "id": id
+                }
+            })
+                .done(function (data, textStatus, jqXHR) {
+                    console.log("HTTP Request Succeeded: " + jqXHR.status);
+                    location.reload();
+                })
+                .fail(function (jqXHR, textStatus, errorThrown) {
+                    console.log("HTTP Request Failed");
+                })
+                .always(function () {
+                });
+        }
+    </script>
+
+{% endblock %}

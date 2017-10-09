@@ -1,0 +1,17 @@
+{% extends "Comments/base.html" %}
+{% load bootstrap3 %}
+{% load staticfiles %}
+
+{% block content %}
+    <form action="{% url "comment" %}" method="post">
+        {% csrf_token %}
+        {% bootstrap_form form %}
+        {% buttons %}
+            <button type="submit" class="btn btn-success btn-product">
+                <i class="fa fa-check" aria-hidden="true"></i> POST
+            </button>
+        {% endbuttons %}
+    </form>
+
+
+{% endblock %}
