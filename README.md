@@ -3,7 +3,7 @@
 Use Django To Introduce CSRF and Cookies , Session 📝
 
 * [Youtube Tutorial](https://youtu.be/J075bvFA5-Q)
-* [Youtube Tutorial -  Django 防範 CSRF 原理]()
+* [Youtube Tutorial -  Django 防範 CSRF 原理](https://youtu.be/0BOFeQCEfGU)
 
 ## 前言
 
@@ -91,8 +91,6 @@ Session 儲存方式有下列幾種:
 詳細的 Django Session 可參考 [https://docs.djangoproject.com/en/1.11/topics/http/sessions/](https://docs.djangoproject.com/en/1.11/topics/http/sessions/)
 
 ## 使用 Django 介紹 CSRF 攻擊情境
-
-* [Youtube Tutorial -  Django 防範 CSRF 原理]()
 
 先介紹一下裡面的資料夾
 
@@ -200,6 +198,8 @@ django_attack_site 為模擬攻擊（ 被加料 ）的網站，run 起來為 [ht
 ## Django 防範 CSRF 原理
 
 因為認為還是有必要了解原理，所以增加這段來說明原理 :memo:
+
+* [Youtube Tutorial -  Django 防範 CSRF 原理](https://youtu.be/0BOFeQCEfGU)
 
 Django 主要有用到下面兩個原理來防範 CSRF
 
