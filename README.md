@@ -3,6 +3,7 @@
 Use Django To Introduce CSRF and Cookies , Session 📝
 
 * [Youtube Tutorial](https://youtu.be/J075bvFA5-Q)
+* [Youtube Tutorial -  Django 防範 CSRF 原理]()
 
 ## 前言
 
@@ -90,6 +91,8 @@ Session 儲存方式有下列幾種:
 詳細的 Django Session 可參考 [https://docs.djangoproject.com/en/1.11/topics/http/sessions/](https://docs.djangoproject.com/en/1.11/topics/http/sessions/)
 
 ## 使用 Django 介紹 CSRF 攻擊情境
+
+* [Youtube Tutorial -  Django 防範 CSRF 原理]()
 
 先介紹一下裡面的資料夾
 
@@ -193,6 +196,76 @@ django_attack_site 為模擬攻擊（ 被加料 ）的網站，run 起來為 [ht
 所以，Server 的防範（雖然很簡單）還是要做好 :grinning:
 
 如果看到這邊你還是不太了解，建議可以參考影片 [Youtube Tutorial](https://youtu.be/J075bvFA5-Q)
+
+## Django 防範 CSRF 原理
+
+因為認為還是有必要了解原理，所以增加這段來說明原理 :memo:
+
+Django 主要有用到下面兩個原理來防範 CSRF
+
+* Synchronizer Token Pattern ( STP )
+* Double Submit Cookie
+
+下面我將介紹 Django 防範 CSRF 的原理
+
+***Synchronizer Token Pattern ( STP )***
+
+首先，server 會產生一組隨機的 token，並且加在 form 上面，
+
+這個欄位是 hidden，名稱為 `csrfmiddlewaretoken`，如下面程式碼
+
+( `csrfmiddlewaretoken` 這個值每次都會不一樣 )
+
+```html
+<form action="/comment/" method="post">
+        <input type="hidden" name="csrfmiddlewaretoken" value="MPCHeo4bEhSu9ivqvyb7KJbRnqiXJ7kapXY5UWqNbwBmO1LVpbHN4KgZt1KKtbMu">
+        <div class="form-group">
+            <label class="control-label" for="id_name">Name</label>
+            <input type="text" name="name" maxlength="20" class="form-control" placeholder="Name" title="" required="" id="id_name"></div>
+        <div class="form-group">
+            <label class="control-label" for="id_text">Text</label>
+            <input type="text" name="text" maxlength="200" class="form-control" placeholder="Text" title="" required="" id="id_text"></div>
+        <div class="form-group">
+            <button type="submit" class="btn btn-success btn-product">
+                <i class="fa fa-check" aria-hidden="true"></i> POST
+            </button>
+        </div>
+</form>
+```
+
+***Double Submit Cookie***
+
+另一個 token 是當你成功登入時，會儲存在 client side ( 使用者端 ) 的 Cookies 中，名稱為 `csrftoken`，
+
+這個 token 是唯一的，如果登出再登入，此 token 也會不一樣。
+
+![](https://i.imgur.com/JDeRwZ2.png)
+
+接著當使用者按下 submit 時，server 會將 cookie 裡面的 `csrftoken` 以及 form 裡面的 `csrfmiddlewaretoken` 進行比對
+
+( **注意，會將  `csrftoken` 以及 `csrfmiddlewaretoken` 這兩個值解密後再比對**  )，
+
+如果相同，代表這個請求合法，否則，會返回 403 Forbidden。
+
+這裡我先解釋一下解密的部分，
+
+我們先看一下  cookie 裡面的 `csrftoken`，值為 `Bsi2Aqys1l8jUnyvSPZHAQaEAI5ucul2eAEqgYU4yARbz6O0MsvnURfMGjxhWyNm`，
+
+再看 form 裡面的 `csrfmiddlewaretoken` ，值為 `MPCHeo4bEhSu9ivqvyb7KJbRnqiXJ7kapXY5UWqNbwBmO1LVpbHN4KgZt1KKtbMu`，
+
+咦 ?  這兩個值根本不一樣啊 :confused:
+
+這就是我說的解密的部分，這兩個 token 都有進行加密，
+
+你可以將這兩個值丟進去 [csrf.py](https://github.com/django/django/blob/master/django/middleware/csrf.py#L56) 裡的 `_unsalt_cipher_token` function，
+
+你會發現結果都是 `NiwyQIwMHpT2PTqF4NGQubfigLCXUeCu` :open_mouth:
+
+如果你想玩玩看，我將 `_unsalt_cipher_token` function 放在 [decrypt_token.py](https://github.com/twtrubiks/CSRF-tutorial/blob/master/csrf_tutorial_backed/decrypt_token.py) 這邊 :relaxed:
+
+以上就是整個 Django 防範 CSRF 的原理 :smirk:
+
+更多詳細的介紹可參考 [https://docs.djangoproject.com/en/1.11/ref/csrf/#how-it-works](https://docs.djangoproject.com/en/1.11/ref/csrf/#how-it-works)
 
 ## 結論
 
