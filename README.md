@@ -288,6 +288,14 @@ Django 主要有用到下面兩個原理來防範 CSRF
 * [Same-Origin Policy, CORS and CSRF](https://hackmd.io/s/H1cY3TTYe#same-origin-policy-cors-and-csrf)
 * [TechBridge-讓我們來談談 CSRF](http://blog.techbridge.cc/2017/02/25/csrf-introduction/)
 
+## Donation
+
+如果有幫助到您，也想鼓勵我的話，歡迎請我喝一杯咖啡:laughing:
+
+![alt tag](https://i.imgur.com/LRct9xa.png)
+
+[贊助者付款](https://payment.opay.tw/Broadcaster/Donate/9E47FDEF85ABE383A0F5FC6A218606F8)
+
 ## License
 
 MIT license
